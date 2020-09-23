@@ -11,8 +11,20 @@
 
 usage()
 {
-    printf "Usage: $0 cutoff sig-figs col1 [col2 ...]\n"
-    printf "Example: $0 0.01 1 2 5 6\n"
+    cat << EOM
+
+Usage: $0 FS cutoff sig-figs col1 [col2 ...]
+
+Example:
+
+    Space or tab separator
+    Scientific notation for values < 10^-2
+    10 significant figures
+    Columns 1, 5, and 6
+
+$0 '[ \\\t]' 0.01 10 1 5 6
+
+EOM
     exit 1
 }
 
@@ -21,16 +33,18 @@ usage()
 #   Main
 ##########################################################################
 
-if [ $# -lt 3 ]; then
+if [ $# -lt 4 ]; then
     usage
 fi
+fs="$1"
+shift
 cutoff=$1
 shift
 sig_figs=$1
 shift
 col_str="$@"
 
-awk -F '\t' -f format-cols.awk \
+awk -F $fs -f format-cols.awk \
     -v cutoff=$cutoff \
-    -v col_str="$col_str" \
-    -v sig_figs=$sig_figs
+    -v sig_figs=$sig_figs \
+    -v col_str="$col_str"

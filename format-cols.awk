@@ -10,17 +10,17 @@
 #   2020-09-23  Jason Bacon Begin
 #############################################################################
 
-function format_col(col, cols)
+function format_col(_col, _col_array)
 
 {
     #printf("Checking for %s in ", col);
-    #for (c in cols) printf("%s ", c);
+    #for (c in col_array) printf("%s ", col_array[c]);
     #printf("\n");
-    for (c in cols)
+    for (_c in _col_array)
     {
-	if (c == col)
+	if (_col_array[_c] == _col)
 	{
-	    #printf("%s is in array\n", col, cols);
+	    #printf("found %s ", col);
 	    return 1;
 	}
     }
@@ -28,39 +28,39 @@ function format_col(col, cols)
 }
 
 
-function abs(num)
+function abs(_num)
 {
-    if ( num < 0 )
-	return -num;
+    if ( _num < 0 )
+	return -_num;
     else
-	return num;
+	return _num;
 }
 
 
 BEGIN {
-    #printf("cutoff=%s sig_figs=%s col_str=%s\n", cutoff, sig_figs, col_str);
-    split(col_str, cols, "[\t ]");
-    #printf("cols = ");
-    #for (c in cols) printf("%s ", c);
-    #printf("\n");
+    printf("cutoff=%s sig_figs=%s col_str='%s'\n", cutoff, sig_figs, col_str);
+    split(col_str, col_array, "[ \t]");
+    printf("col_array = ");
+    for (c in col_array) printf("%s ", col_array[c]);
+    printf("\n");
 }
 {
     for (c = 1; c <= NF; ++c)
     {
-	if ( ($c ~ "[0-9]*\.[0-9]+(e[0-9])*") && format_col(c, cols) )
+	if ( ($c ~ "[0-9]*\.[0-9]+(e[0-9])*") && format_col(c, col_array) )
 	{
-	    #printf("Formatting %s... ", $c);
 	    if (abs($c) < cutoff)
 	    {
-		printf("%0.*e\t", sig_figs, $c);
+		#printf("Formatting %s... ", $c);
+		printf("%0.*e%s", sig_figs, $c, FS);
 	    }
 	    else
 	    {
-		printf("%0.*g\t", sig_figs, $c);
+		printf("%0.*g%s", sig_figs, $c, FS);
 	    }
 	}
 	else
-	    printf("%s\t", $c);
+	    printf("%s%s", $c, FS);
     }
     printf("\n");
 }
