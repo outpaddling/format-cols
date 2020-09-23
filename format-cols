@@ -30,7 +30,7 @@ sig_figs=$1
 shift
 col_str="$@"
 
-awk -F '\t' -f auto-sci.awk \
+awk -F '\t' -f format-cols.awk \
     -v cutoff=$cutoff \
     -v col_str="$col_str" \
     -v sig_figs=$sig_figs
