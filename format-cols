@@ -1,0 +1,36 @@
+#!/bin/sh -e
+
+##########################################################################
+#   Script description:
+#       Auto-format columns in scientific notation with a given cutoff
+#       
+#   History:
+#   Date        Name        Modification
+#   2020-09-23  Jason Bacon Begin
+##########################################################################
+
+usage()
+{
+    printf "Usage: $0 cutoff sig-figs col1 [col2 ...]\n"
+    printf "Example: $0 0.01 1 2 5 6\n"
+    exit 1
+}
+
+
+##########################################################################
+#   Main
+##########################################################################
+
+if [ $# -lt 3 ]; then
+    usage
+fi
+cutoff=$1
+shift
+sig_figs=$1
+shift
+col_str="$@"
+
+awk -F '\t' -f auto-sci.awk \
+    -v cutoff=$cutoff \
+    -v col_str="$col_str" \
+    -v sig_figs=$sig_figs
