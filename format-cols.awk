@@ -38,11 +38,11 @@ function abs(_num)
 
 
 BEGIN {
-    printf("cutoff=%s sig_figs=%s col_str='%s'\n", cutoff, sig_figs, col_str);
+    #printf("cutoff=%s sig_figs=%s col_str='%s'\n", cutoff, sig_figs, col_str);
     split(col_str, col_array, "[ \t]");
-    printf("col_array = ");
-    for (c in col_array) printf("%s ", col_array[c]);
-    printf("\n");
+    #printf("col_array = ");
+    #for (c in col_array) printf("%s ", col_array[c]);
+    #printf("\n");
 }
 {
     for (c = 1; c <= NF; ++c)
