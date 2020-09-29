@@ -1,9 +1,6 @@
 #############################################################################
 #   Description:
-#  
-#   Arguments:
-#
-#   Returns:
+#       Format numbers in given columns according to user preferences
 #
 #   History: 
 #   Date        Name        Modification
@@ -13,14 +10,10 @@
 function format_col(_col, _col_array)
 
 {
-    #printf("Checking for %s in ", col);
-    #for (c in col_array) printf("%s ", col_array[c]);
-    #printf("\n");
     for (_c in _col_array)
     {
 	if (_col_array[_c] == _col)
 	{
-	    #printf("found %s ", col);
 	    return 1;
 	}
     }
@@ -38,11 +31,8 @@ function abs(_num)
 
 
 BEGIN {
-    #printf("cutoff=%s sig_figs=%s col_str='%s'\n", cutoff, sig_figs, col_str);
     split(col_str, col_array, "[ \t]");
-    #printf("col_array = ");
-    #for (c in col_array) printf("%s ", col_array[c]);
-    #printf("\n");
+    OFS=FS;
 }
 {
     for (c = 1; c <= NF; ++c)
@@ -51,18 +41,16 @@ BEGIN {
 	{
 	    if (abs($c) < cutoff)
 	    {
-		#printf("Formatting %s... ", $c);
-		printf("%0.*e%s", sig_figs, $c, FS);
+		printf("%0.*e", sig_figs, $c);
 	    }
 	    else
 	    {
-		printf("%0.*g%s", sig_figs, $c, FS);
+		printf("%0.*g", sig_figs, $c);
 	    }
 	}
 	else
-	    printf("%s%s", $c, FS);
+	    printf("%s", $c);
+	if ( c < NF ) printf("%s", FS);
     }
     printf("\n");
-}
-END {
 }
